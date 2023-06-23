@@ -1,66 +1,75 @@
-use std::fmt::Display;
+// An attribute to hide warnings for unused code.
+#![allow(dead_code)]
 
-// Tuples can be used as function arguments and as return values.
-fn reverse(pair: (i32, bool)) -> (bool, i32) {
-    // `let` can be used to bind the members of a tuple to variables.
-    let (int_param, bool_param) = pair;
-
-    (bool_param, int_param)
-}
-
-fn transpose(mat: Matrix) -> Matrix {
-    Matrix(mat.0, mat.2, mat.1, mat.3)
-}
-
-// The following struct is for the activity.
 #[derive(Debug)]
-struct Matrix(f32, f32, f32, f32);
+struct Person {
+    name: String,
+    age: u8,
+}
 
-impl Display for Matrix {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "( {} {} )\n( {} {} )", self.0, self.1, self.2, self.3)
-    }
+// A unit struct
+struct Unit;
+
+// A tuple struct
+struct Pair(i32, f32);
+
+// A struct with two fields
+struct Point {
+    x: f32,
+    y: f32,
+}
+
+// Structs can be reused as fields of another struct
+struct Rectangle {
+    // A rectangle can be specified by where the top left and bottom right
+    // corners are in space.
+    top_left: Point,
+    bottom_right: Point,
 }
 
 fn main() {
-    // A tuple with a bunch of different types.
-    let long_tuple = (1u8, 2u16, 3u32, 4u64,
-                      -1i8, -2i16, -3i32, -4i64,
-                      0.1f32, 0.2f64,
-                      'a', true);
+    // Create struct with field init shorthand
+    let name = String::from("Peter");
+    let age = 27;
+    let peter = Person { name, age };
 
-    // Values can be extracted from the tuple using tuple indexing.
-    println!("Long tuple first value: {}", long_tuple.0);
-    println!("Long tuple second value: {}", long_tuple.1);
+    // Print debug struct
+    println!("{:?}", peter);
 
-    // Tuples can be tuple members.
-    let tuple_of_tuples = ((1u8, 2u16, 2u32), (4u64, -1i8), -2i16);
+    // Instantiate a `Point`
+    let point: Point = Point { x: 10.3, y: 0.4 };
 
-    // Tuples are printable.
-    println!("tuple of tuples: {:?}", tuple_of_tuples);
+    // Access the fields of the point
+    println!("point coordinates: ({}, {})", point.x, point.y);
 
-    // But long Tuples (more than 12 elements) cannot be printed.
-    //let too_long_tuple = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
-    //println!("Too long tuple: {:?}", too_long_tuple);
-    // TODO ^ Uncomment the above 2 lines to see the compiler error
+    // Make a new point by using struct update syntax to use the fields of our
+    // other one
+    let bottom_right = Point { x: 5.2, ..point };
 
-    let pair = (1, true);
-    println!("Pair is {:?}", pair);
+    // `bottom_right.y` will be the same as `point.y` because we used that field
+    // from `point`
+    println!("second point: ({}, {})", bottom_right.x, bottom_right.y);
 
-    println!("The reversed pair is {:?}", reverse(pair));
+    // Destructure the point using a `let` binding
+    let Point { x: left_edge, y: top_edge } = point;
 
-    // To create one element tuples, the comma is required to tell them apart
-    // from a literal surrounded by parentheses.
-    println!("One element tuple: {:?}", (5u32,));
-    println!("Just an integer: {:?}", (5u32));
+    let _rectangle = Rectangle {
+        // struct instantiation is an expression too
+        top_left: Point { x: left_edge, y: top_edge },
+        bottom_right: bottom_right,
+    };
 
-    // Tuples can be destructured to create bindings.
-    let tuple = (1, "hello", 4.5, true);
+    // Instantiate a unit struct
+    let _unit = Unit;
 
-    let (a, b, c, d) = tuple;
-    println!("{:?}, {:?}, {:?}, {:?}", a, b, c, d);
+    // Instantiate a tuple struct
+    let pair = Pair(1, 0.1);
 
-    let matrix = Matrix(1.1, 1.2, 2.1, 2.2);
-    println!("Matrix:\n{}", matrix);
-    println!("Transpose:\n{}", transpose(matrix));
+    // Access the fields of a tuple struct
+    println!("pair contains {:?} and {:?}", pair.0, pair.1);
+
+    // Destructure a tuple struct
+    let Pair(integer, decimal) = pair;
+
+    println!("pair contains {:?} and {:?}", integer, decimal);
 }

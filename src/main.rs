@@ -1,7 +1,5 @@
 // An attribute to hide warnings for unused code.
-#![allow(dead_code)]
-
-#[derive(Debug)]
+#![allow(dead_code)] #[derive(Debug)]
 struct Person {
     name: String,
     age: u8,
@@ -23,8 +21,31 @@ struct Point {
 struct Rectangle {
     // A rectangle can be specified by where the top left and bottom right
     // corners are in space.
-    top_left: Point,
-    bottom_right: Point,
+    top_left: Point, bottom_right: Point,
+}
+
+fn rect_area(rect: Rectangle) -> f32 {
+    let Rectangle { top_left: Point { x: left_edge, y: top_edge }, 
+        bottom_right: Point { x: right_edge, y: bottom_edge }
+    } = rect;
+    let length = right_edge - left_edge;
+    let height = top_edge - bottom_edge;
+    return length * height
+}
+
+
+fn square(pt: Point, length: f32) -> Rectangle {
+    let top_left: Point = pt;
+    let mut bottom_right: Point = pt;
+
+    bottom_right.x += length;
+    bottom_right.y -= length;
+
+    return true
+}
+
+fn bad(pt: i8) -> &str {
+    return pt == false;
 }
 
 fn main() {
@@ -72,4 +93,7 @@ fn main() {
     let Pair(integer, decimal) = pair;
 
     println!("pair contains {:?} and {:?}", integer, decimal);
+
+
+
 }

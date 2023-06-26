@@ -36,16 +36,15 @@ fn rect_area(rect: Rectangle) -> f32 {
 
 fn square(pt: Point, length: f32) -> Rectangle {
     let top_left: Point = pt;
-    let mut bottom_right: Point = pt;
+    let mut bottom_right: Point = Point { x: top_left.x, y: top_left.y };
 
     bottom_right.x += length;
     bottom_right.y -= length;
 
-    return true
-}
-
-fn bad(pt: i8) -> &str {
-    return pt == false;
+    Rectangle {
+        top_left,
+        bottom_right,
+    }
 }
 
 fn main() {
@@ -77,7 +76,7 @@ fn main() {
     let _rectangle = Rectangle {
         // struct instantiation is an expression too
         top_left: Point { x: left_edge, y: top_edge },
-        bottom_right: bottom_right,
+        bottom_right,
     };
 
     // Instantiate a unit struct

@@ -1,23 +1,17 @@
+// `NanoSecond`, `Inch`, and `U64` are new names for `u64`.
+type NanoSecond = u64;
+type Inch = u64;
+type U64 = u64;
+
 fn main() {
-    // Declare a variable binding
-    let a_binding;
+    // `NanoSecond` = `Inch` = `U64` = `u64`.
+    let nanoseconds: NanoSecond = 5 as U64;
+    let inches: Inch = 2 as U64;
 
-    {
-        let x = 2;
-
-        // Initialize the binding
-        a_binding = x * x;
-    }
-
-    println!("a binding: {}", a_binding);
-
-    let another_binding;
-
-    // Error! Use of uninitialized binding
-    //println!("another binding: {}", another_binding);
-    // FIXME ^ Comment out this line
-
-    another_binding = 1;
-
-    println!("another binding: {}", another_binding);
+    // Note that type aliases *don't* provide any extra type safety, because
+    // aliases are *not* new types
+    println!("{} nanoseconds + {} inches = {} unit?",
+             nanoseconds,
+             inches,
+             nanoseconds + inches);
 }

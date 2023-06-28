@@ -1,17 +1,20 @@
-// `NanoSecond`, `Inch`, and `U64` are new names for `u64`.
-type NanoSecond = u64;
-type Inch = u64;
-type U64 = u64;
-
 fn main() {
-    // `NanoSecond` = `Inch` = `U64` = `u64`.
-    let nanoseconds: NanoSecond = 5 as U64;
-    let inches: Inch = 2 as U64;
+    let x = 5u32;
 
-    // Note that type aliases *don't* provide any extra type safety, because
-    // aliases are *not* new types
-    println!("{} nanoseconds + {} inches = {} unit?",
-             nanoseconds,
-             inches,
-             nanoseconds + inches);
+    let y = {
+        let x_squared = x * x;
+        let x_cube = x_squared * x;
+
+        // This expression will be assigned to `y`
+        x_cube + x_squared + x
+    };
+
+    let z = {
+        // The semicolon suppresses this expression and `()` is assigned to `z`
+        2 * x;
+    };
+
+    println!("x is {:?}", x);
+    println!("y is {:?}", y);
+    println!("z is {:?}", z);
 }
